@@ -28,7 +28,7 @@ in
 {
 
   dotenv.disableHint = true;
-  cachix.enable = true;
+  # cachix.enable = true;
 
   overlays = [
     (final: prev: {
