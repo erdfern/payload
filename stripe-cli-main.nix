@@ -8,7 +8,7 @@
 
 buildGoModule rec {
   pname = "stripe-cli";
-  version = "1.32.0";
+  version = "1.33.0";
 
   src = fetchFromGitHub {
     owner = "stripe";
