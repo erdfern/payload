@@ -1,29 +1,28 @@
 // import { stripeCheckoutAdapter } from '@/lib/payments/adapters/stripe-checkout'
 
-import { adminOnlyFieldAccess } from '@/access/adminOnlyFieldAccess'
-import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
-import { customerOnlyFieldAccess } from '@/access/customerOnlyFieldAccess'
 import { isAdmin } from '@/access/isAdmin'
-import { isAdminOrDocumentOwner } from '@/access/isDocumentOwner'
 import { ProductsCollection } from '@/collections/Products'
-import { ecommercePlugin, EUR } from '@payloadcms/plugin-ecommerce'
+import { ecommercePlugin } from '@payloadcms/plugin-ecommerce'
 import { stripeAdapter } from '@payloadcms/plugin-ecommerce/payments/stripe'
 import type { Plugin } from 'payload'
 
+import { adminOnlyFieldAccess } from '@/access/adminOnlyFieldAccess'
+import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
+import { customerOnlyFieldAccess } from '@/access/customerOnlyFieldAccess'
+import { isDocumentOwner } from '@/access/isDocumentOwner'
+import { CURRENCIES_CONFIG } from './constants'
+
 export const ecommercePluginConfig: Plugin = ecommercePlugin({
   access: {
-    isAdmin,
-    isDocumentOwner: isAdminOrDocumentOwner,
     adminOnlyFieldAccess,
     adminOrPublishedStatus,
     customerOnlyFieldAccess,
+    isAdmin,
+    isDocumentOwner,
   },
   customers: { slug: 'users' },
-  currencies: {
-    defaultCurrency: EUR.code,
-    // supportedCurrencies: [EUR, GBP, USD],
-    supportedCurrencies: [EUR],
-  },
+  currencies: CURRENCIES_CONFIG,
+  carts: { allowGuestCarts: true },
   payments: {
     paymentMethods: [
       //   stripeCheckoutAdapter({

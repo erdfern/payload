@@ -11,7 +11,7 @@ import { checkRole } from '@/access/utilities'
  *
  * @returns true for admins, Where query for customers, false for guests
  */
-export const isAdminOrDocumentOwner: Access = ({ req }) => {
+export const isDocumentOwner: Access = ({ req }) => {
   // Admin has full access
   if (req.user && checkRole(['admin'], req.user)) {
     return true
