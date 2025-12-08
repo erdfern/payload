@@ -112,9 +112,9 @@ in
       };
     };
     payload = {
-      exec = "bun dev";
+      exec = "cd templates/ecommerce && pnpm dev";
       process-compose = {
-        # depends_on.mongodb.condition = "process_started";
+        depends_on.mongodb.condition = "process_started";
         # depends_on.stripe-webhooks-redirect.condition = "process_started";
         # depends_on.stripe-webhooks-redirect.condition = "process_healthy";
       };
@@ -122,16 +122,16 @@ in
   };
 
   # https://devenv.sh/services/
-  # services = {
-  #   mongodb = {
-  #     enable = true;
-  #     additionalArgs = [
-  #       "--port"
-  #       "27017"
-  #       "--noauth"
-  #     ];
-  #   };
-  # };
+  services = {
+    mongodb = {
+      enable = true;
+      additionalArgs = [
+        "--port"
+        "27017"
+        "--noauth"
+      ];
+    };
+  };
 
   # https://devenv.sh/processes/
   # processes.dev.exec = "${lib.getExe pkgs.watchexec} -n -- ls -la";
