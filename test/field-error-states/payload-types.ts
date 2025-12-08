@@ -98,6 +98,7 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
+  fallbackLocale: null;
   globals: {
     'global-validate-drafts-on': GlobalValidateDraftsOn;
   };

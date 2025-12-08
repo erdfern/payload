@@ -13,6 +13,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
+import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
 import { Categories } from '@/collections/Categories'
@@ -77,6 +78,7 @@ export default buildConfig({
       ]
     },
   }),
+  // cors: [getServerSideURL()].filter(Boolean),
   //email: nodemailerAdapter(),
   endpoints: [],
   globals: [Header, Footer],
@@ -88,5 +90,5 @@ export default buildConfig({
   // Sharp is now an optional dependency -
   // if you want to resize images, crop, set focal point, etc.
   // make sure to install it and pass it to the config.
-  // sharp,
+  sharp,
 })
