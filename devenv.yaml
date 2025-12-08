@@ -2,7 +2,7 @@
 inputs:
   nixpkgs:
     # url: github:cachix/devenv-nixpkgs/rolling
-    url: git@github.com:erdfern/payload.git
+    url: github:nixos/nixpkgs/nixos-unstable
 
 # If you're using non-OSS software, you can set allowUnfree to true.
 # allowUnfree: true
