@@ -14,7 +14,7 @@ buildGoModule rec {
     owner = "stripe";
     repo = "stripe-cli";
     rev = "v${version}";
-    hash = "sha256-JWeLYcSXcxP4wmzcBkAAoijo2TzhEBMjnAF31APU2TU=";
+    hash = "sha256-fsCV2qITO6qbR2LElR7DnVtTlcqB+UIeg5zEdRV/Zxs=";
   };
   vendorHash = "sha256-EDdRgApJ7gv/4ma/IfaHi+jjpTPegsUfqHbvoFMn048=";
 
