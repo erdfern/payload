@@ -73,20 +73,8 @@ export const initiatePaymentHandler: InitiatePayment =
     const shippingAddress = data?.shippingAddress
 
     let customerEmail: string = user?.email ?? ''
-
-    if (user) {
-      if (user.cart?.docs && Array.isArray(user.cart.docs) && user.cart.docs.length > 0) {
-        if (!cartID && user.cart.docs[0]) {
-          // Use the user's cart instead
-          if (typeof user.cart.docs[0] === 'object') {
-            cartID = user.cart.docs[0].id
-            cart = user.cart.docs[0]
-          } else {
-            cartID = user.cart.docs[0]
-          }
-        }
-      }
-    } else {
+    // Guest
+    if (!user) {
       // Get the email from the data if user is not available
       if (data?.customerEmail && typeof data.customerEmail === 'string') {
         customerEmail = data.customerEmail
@@ -102,40 +90,47 @@ export const initiatePaymentHandler: InitiatePayment =
       }
     }
 
-    if (!cart) {
-      if (cartID) {
-        cart = await payload.findByID({
-          id: cartID,
-          collection: cartsSlug,
-          depth: 2,
-          overrideAccess: false,
-          select: {
-            id: true,
-            currency: true,
-            customerEmail: true,
-            items: true,
-            subtotal: true,
-          },
-          user,
-        })
-
-        if (!cart) {
-          return Response.json(
-            {
-              message: `Cart with ID ${cartID} not found.`,
-            },
-            {
-              status: 404,
-            },
-          )
+    if (user && user.cart?.docs && Array.isArray(user.cart.docs) && user.cart.docs.length > 0) {
+      if (!cartID && user.cart.docs[0]) {
+        // Use the user's cart instead
+        if (typeof user.cart.docs[0] === 'object') {
+          cartID = user.cart.docs[0].id
+          cart = user.cart.docs[0]
+        } else {
+          cartID = user.cart.docs[0]
         }
-      } else {
+      }
+    }
+
+    if (!cart) {
+      console.log('no cart')
+      if (!cartID) {
+        return Response.json({ message: 'Cart ID is required.' }, { status: 400 })
+      }
+
+      // TODO if we're at guest checkout, we need to check the cart secret!!
+      cart = await payload.findByID({
+        id: cartID,
+        collection: cartsSlug,
+        depth: 2,
+        overrideAccess: true, // TEMP; TODO check cart secret if guest
+        select: {
+          id: true,
+          currency: true,
+          customerEmail: true,
+          items: true,
+          subtotal: true,
+        },
+        user,
+      })
+
+      if (!cart) {
         return Response.json(
           {
-            message: 'Cart ID is required.',
+            message: `Cart with ID ${cartID} not found.`,
           },
           {
-            status: 400,
+            status: 404,
           },
         )
       }

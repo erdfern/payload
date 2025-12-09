@@ -64,7 +64,7 @@ export const CheckoutPage: React.FC = () => {
         }
       }
     }
-  }, [addresses])
+  }, [addresses, shippingAddress])
 
   useEffect(() => {
     return () => {
@@ -102,7 +102,7 @@ export const CheckoutPage: React.FC = () => {
         toast.error(errorMessage)
       }
     },
-    [billingAddress, billingAddressSameAsShipping, shippingAddress],
+    [billingAddress, billingAddressSameAsShipping, email, initiatePayment, shippingAddress],
   )
 
   if (!stripe) return null
@@ -299,7 +299,7 @@ export const CheckoutPage: React.FC = () => {
         )}
 
         <Suspense fallback={<React.Fragment />}>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error idk*/}
           {paymentData && paymentData?.['clientSecret'] && (
             <div className="pb-16">
               <h2 className="font-medium text-3xl">Payment</h2>
@@ -358,7 +358,7 @@ export const CheckoutPage: React.FC = () => {
             if (typeof item.product === 'object' && item.product) {
               const {
                 product,
-                product: { id, meta, title, gallery },
+                product: { meta, title, gallery },
                 quantity,
                 variant,
               } = item

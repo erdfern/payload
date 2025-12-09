@@ -1,6 +1,5 @@
 // import { stripeCheckoutAdapter } from '@/lib/payments/adapters/stripe-checkout'
 
-import { isAdmin } from '@/access/isAdmin'
 import { ProductsCollection } from '@/collections/Products'
 import { ecommercePlugin } from '@payloadcms/plugin-ecommerce'
 import { stripeAdapter } from '@payloadcms/plugin-ecommerce/payments/stripe'
@@ -9,6 +8,7 @@ import type { Plugin } from 'payload'
 import { adminOnlyFieldAccess } from '@/access/adminOnlyFieldAccess'
 import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
 import { customerOnlyFieldAccess } from '@/access/customerOnlyFieldAccess'
+import { isAdmin } from '@/access/isAdmin'
 import { isDocumentOwner } from '@/access/isDocumentOwner'
 import { CURRENCIES_CONFIG } from './constants'
 
@@ -43,18 +43,18 @@ export const ecommercePluginConfig: Plugin = ecommercePlugin({
         label: 'Stripe',
         // NOTE: api/payments/stripe/webhooks
         // can't use defineStripeWebhooks approach here, since it's using different types?? and doesn't even export them
-        webhooks: {
-          'product.created': ({ event, req, stripe }) => {
-            // event is Stripe.ProductCreatedEvent here
-            req.payload.logger.debug(event)
-            req.payload.logger.debug(stripe.products.list())
-          },
-          'product.updated': ({ event, req, stripe }) => {
-            // event is Stripe.ProductUpdatedEvent
-            req.payload.logger.debug(event)
-            req.payload.logger.debug(stripe.products.list())
-          },
-        },
+        // webhooks: {
+        //   'product.created': ({ event, req, stripe }) => {
+        //     // event is Stripe.ProductCreatedEvent here
+        //     req.payload.logger.debug(event)
+        //     req.payload.logger.debug(stripe.products.list())
+        //   },
+        //   'product.updated': ({ event, req, stripe }) => {
+        //     // event is Stripe.ProductUpdatedEvent
+        //     req.payload.logger.debug(event)
+        //     req.payload.logger.debug(stripe.products.list())
+        //   },
+        // },
       }),
     ],
   },

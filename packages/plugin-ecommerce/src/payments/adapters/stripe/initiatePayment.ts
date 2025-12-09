@@ -12,6 +12,8 @@ type Props = {
 export const initiatePayment: (props: Props) => NonNullable<PaymentAdapter>['initiatePayment'] =
   (props) =>
   async ({ data, req, transactionsSlug }) => {
+    console.debug('Hi!~')
+
     const payload = req.payload
     const { apiVersion, appInfo, secretKey } = props || {}
 
